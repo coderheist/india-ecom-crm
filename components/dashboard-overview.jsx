@@ -252,15 +252,15 @@ const performanceMetricsData = [
 const StatCard = ({ title, value, change, icon: Icon }) => {
   const isPositive = change.startsWith('+')
   return (
-    <Card className="transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+    <Card className="metric-card">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-sm font-medium">{title}</CardTitle>
         <Icon className="h-4 w-4 text-muted-foreground" />
       </CardHeader>
       <CardContent>
-        <div className="text-2xl font-bold">{value}</div>
+        <div className="metric-value">{value}</div>
         <p className="text-xs text-muted-foreground flex items-center">
-          <span className={`mr-1 flex items-center font-semibold ${isPositive ? 'text-green-600' : 'text-red-600'}`}>
+          <span className={`mr-1 flex items-center font-semibold metric-change ${isPositive ? 'positive' : 'negative'}`}>
             {isPositive ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />}
             {change.substring(1)}
           </span>
@@ -273,37 +273,37 @@ const StatCard = ({ title, value, change, icon: Icon }) => {
 
 const ActivityItem = ({ activity }) => {
     const iconMap = {
-        order: <ShoppingCart className="h-5 w-5 text-gray-500" />,
-        support: <MessageSquare className="h-5 w-5 text-gray-500" />,
-        marketing: <Mail className="h-5 w-5 text-gray-500" />,
-        customer: <Users className="h-5 w-5 text-gray-500" />,
+        order: <ShoppingCart className="h-5 w-5 text-blue-500" />,
+        support: <MessageSquare className="h-5 w-5 text-green-500" />,
+        marketing: <Mail className="h-5 w-5 text-purple-500" />,
+        customer: <Users className="h-5 w-5 text-orange-500" />,
     };
 
     const statusBadgeMap = {
-        new: "bg-blue-100 text-blue-800 hover:bg-blue-200",
-        resolved: "bg-green-100 text-green-800 hover:bg-green-200",
-        sent: "bg-purple-100 text-purple-800 hover:bg-purple-200",
+        new: "badge-info",
+        resolved: "badge-success",
+        sent: "badge-info",
     };
     
     return (
-        <div className="flex items-start space-x-4">
+        <div className="flex items-start space-x-4 p-3 rounded-lg hover:bg-muted/50 transition-colors">
             <div className="mt-1">{iconMap[activity.type] || <Package className="h-5 w-5" />}</div>
             <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium">{activity.message}</p>
                 <p className="text-xs text-muted-foreground">{activity.time}</p>
             </div>
-            <Badge className={`capitalize ${statusBadgeMap[activity.status]}`}>{activity.status}</Badge>
+            <Badge className={`capitalize ${statusBadgeMap[activity.status] || 'badge-info'}`}>{activity.status}</Badge>
         </div>
     )
 }
 
 const MetricItem = ({ label, value, unit = "%", formatValue }) => (
-    <div>
+    <div className="space-y-2">
       <div className="flex items-center justify-between mb-1">
-        <span className="text-sm font-medium text-gray-800">{label}</span>
-        <span className="text-sm font-semibold text-gray-600">{formatValue || value}{unit}</span>
+        <span className="text-sm font-medium">{label}</span>
+        <span className="text-sm font-semibold">{formatValue || value}{unit}</span>
       </div>
-      <Progress value={value > 100 ? 100 : value} className="h-2" />
+      <Progress value={value > 100 ? 100 : value} className="h-3" />
     </div>
 )
 
@@ -314,22 +314,22 @@ export function DashboardOverview() {
   const { user } = useAuth()
 
   return (
-    <div className="p-0 m-0">
+    <div className="container-enhanced section-padding animate-fade-in">
       <div>
         <h2 className="text-3xl font-bold tracking-tight">Welcome back, {user?.name?.split(" ")[0]}!</h2>
         <p className="text-muted-foreground">Here's your e-commerce business overview for today, {new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}.</p>
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="stats-grid">
         {statsData.map((stat) => (
           <StatCard key={stat.title} {...stat} />
         ))}
       </div>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {/* Recent Activities */}
-        <Card className="lg:col-span-2">
+        <Card className="lg:col-span-2 card-enhanced">
           <CardHeader>
             <CardTitle>Recent Activities</CardTitle>
             <CardDescription>Latest updates from your CRM system.</CardDescription>
@@ -348,7 +348,7 @@ export function DashboardOverview() {
         </Card>
 
         {/* Performance Metrics */}
-        <Card>
+        <Card className="card-enhanced">
           <CardHeader>
             <CardTitle>Performance Metrics</CardTitle>
             <CardDescription>Key performance indicators for this month.</CardDescription>
@@ -361,7 +361,7 @@ export function DashboardOverview() {
 
       {/* Admin-only System Alerts */}
       {user?.role === "admin" && (
-        <Card>
+        <Card className="card-enhanced">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <AlertCircle className="h-5 w-5 text-orange-500" /> System Alerts

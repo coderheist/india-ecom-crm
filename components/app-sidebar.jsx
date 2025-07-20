@@ -75,7 +75,7 @@ export function AppSidebar({ activeView, setActiveView }) {
   }
 
   return (
-    <Sidebar collapsible="icon">
+    <Sidebar collapsible="icon" className="sidebar-enhanced">
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
@@ -100,7 +100,7 @@ export function AppSidebar({ activeView, setActiveView }) {
             <SidebarMenu>
               {getMenuItems().map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild isActive={activeView === item.url} onClick={() => setActiveView(item.url)}>
+                  <SidebarMenuButton asChild isActive={activeView === item.url} onClick={() => setActiveView(item.url)} className="sidebar-nav-item">
                     <button className="flex items-center gap-2 w-full">
                       <item.icon className="size-4" />
                       <span>{item.title}</span>

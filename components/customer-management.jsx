@@ -162,7 +162,7 @@ export function CustomerManagement() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="container-enhanced section-padding content-spacing animate-fade-in">
       <div className="flex justify-between items-center">
         <div>
           <h2 className="text-3xl font-bold tracking-tight">CRM-Heist</h2>
@@ -228,7 +228,7 @@ export function CustomerManagement() {
       </div>
 
       {/* Filters */}
-      <Card>
+      <Card className="card-enhanced">
         <CardHeader>
           <CardTitle>Search & Filter</CardTitle>
         </CardHeader>
@@ -240,7 +240,7 @@ export function CustomerManagement() {
                 placeholder="Search customers by name, email, or ID..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-8"
+                className="pl-8 input-enhanced"
               />
             </div>
             <Select value={filterRegion} onValueChange={setFilterRegion}>
@@ -271,13 +271,13 @@ export function CustomerManagement() {
       </Card>
 
       {/* Customer Stats */}
-      <div className="grid gap-4 md:grid-cols-4">
+      <div className="stats-grid">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Customers</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{safeCustomers.length}</div>
+            <div className="metric-value">{safeCustomers.length}</div>
             <p className="text-xs text-muted-foreground">Total registered</p>
           </CardContent>
         </Card>
@@ -286,7 +286,7 @@ export function CustomerManagement() {
             <CardTitle className="text-sm font-medium">Active Customers</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{safeCustomers.filter((c) => c.status === "active").length}</div>
+            <div className="metric-value">{safeCustomers.filter((c) => c.status === "active").length}</div>
             <p className="text-xs text-muted-foreground">Currently active</p>
           </CardContent>
         </Card>
@@ -295,7 +295,7 @@ export function CustomerManagement() {
             <CardTitle className="text-sm font-medium">New Customers</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{safeCustomers.filter((c) => c.segment === "New").length}</div>
+            <div className="metric-value">{safeCustomers.filter((c) => c.segment === "New").length}</div>
             <p className="text-xs text-muted-foreground">Recently joined</p>
           </CardContent>
         </Card>
@@ -304,14 +304,14 @@ export function CustomerManagement() {
             <CardTitle className="text-sm font-medium">VIP Customers</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{safeCustomers.filter((c) => c.segment === "VIP").length}</div>
+            <div className="metric-value">{safeCustomers.filter((c) => c.segment === "VIP").length}</div>
             <p className="text-xs text-muted-foreground">High-value customers</p>
           </CardContent>
         </Card>
       </div>
 
       {/* Customer Table */}
-      <Card>
+      <Card className="card-enhanced">
         <CardHeader>
           <CardTitle>Customer List</CardTitle>
           <CardDescription>
@@ -324,7 +324,7 @@ export function CustomerManagement() {
               <p className="text-muted-foreground">No customers found. Create your first customer to get started!</p>
             </div>
           ) : (
-            <Table>
+            <Table className="data-table">
               <TableHeader>
                 <TableRow>
                   <TableHead>Customer</TableHead>

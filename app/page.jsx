@@ -7,32 +7,32 @@ export default function LandingPage() {
   return (
     <>
       {/* 🌈 Fullscreen background gradient */}
-      <div className="fixed inset-0 z-[-1] bg-gradient-to-br from-orange-50 to-slate-100 dark:from-gray-900 dark:to-gray-800" />
+      <div className="fixed inset-0 z-[-1] gradient-secondary" />
 
-      <main className="min-h-screen flex flex-col items-center justify-center px-4 text-foreground">
-        <div className="max-w-2xl w-full text-center py-16">
+      <main className="min-h-screen flex flex-col items-center justify-center px-4 text-foreground animate-fade-in">
+        <div className="max-w-2xl w-full text-center py-16 animate-slide-up">
           <div className="flex justify-center mb-6">
-            <span className="bg-orange-500 p-4 rounded-full inline-flex items-center justify-center shadow-lg">
+            <span className="gradient-primary p-4 rounded-full inline-flex items-center justify-center shadow-xl animate-scale-in">
               <Store className="h-10 w-10 text-white" />
             </span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-extrabold mb-4 text-gray-900 dark:text-white">
+          <h1 className="text-4xl md:text-5xl font-extrabold mb-4">
             CRM Heist
           </h1>
-          <p className="text-lg md:text-xl text-gray-700 dark:text-gray-300 mb-8">
+          <p className="text-lg md:text-xl text-muted-foreground mb-8">
             The all-in-one platform to manage your customers, orders, support, and marketing for your business.
           </p>
           <Link href="/login">
             <Button
               size="lg"
-              className="bg-orange-500 hover:bg-orange-600 text-white text-lg px-8 py-4 rounded-full shadow-lg transition"
+              className="btn-primary text-lg px-8 py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
             >
               Get Started
             </Button>
           </Link>
         </div>
 
-        <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8 px-4">
+        <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8 px-4 animate-slide-up">
           <FeatureCard
             icon={<Users className="h-8 w-8 text-blue-600" />}
             title="Customer Management"
@@ -54,7 +54,7 @@ export default function LandingPage() {
             desc="Gain insights with real-time analytics and reports."
           />
         </div>
-        <footer className="mt-16 text-gray-400 text-sm text-center px-4">
+        <footer className="mt-16 text-muted-foreground text-sm text-center px-4">
           &copy; {new Date().getFullYear()} CRM Heist. All rights reserved.
         </footer>
       </main>
@@ -65,10 +65,10 @@ export default function LandingPage() {
 
 function FeatureCard({ icon, title, desc }) {
   return (
-    <div className="bg-white rounded-xl shadow p-6 flex flex-col items-center text-center h-full">
+    <div className="card-interactive p-6 flex flex-col items-center text-center h-full">
       <div className="mb-4">{icon}</div>
-      <h3 className="font-semibold text-lg mb-2 text-gray-900">{title}</h3>
-      <p className="text-gray-600 text-sm">{desc}</p>
+      <h3 className="font-semibold text-lg mb-2">{title}</h3>
+      <p className="text-muted-foreground text-sm">{desc}</p>
     </div>
   );
 }
