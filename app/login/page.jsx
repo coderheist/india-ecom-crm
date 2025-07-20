@@ -11,13 +11,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Store } from "lucide-react";
-import { signInWithGoogle } from "@/lib/firebase-auth";
+import { useAuth } from "@/components/auth-provider";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const { loginWithGoogle } = useAuth();
 
   // Email/Password login handler
   async function handleLogin(e) {
@@ -49,11 +51,9 @@ export default function LoginPage() {
     setLoading(true);
     setError("");
     try {
-      const result = await signInWithGoogle();
-      const user = result.user;
-      // You may want to send user info to your backend for JWT/session
-      // For demo, redirect to dashboard
-      window.location.href = "/dashboard";
+      const result = await loginWithGoogle();
+      if (!result.success) throw new Error(result.error || "Google sign-in failed");
+      // AuthProvider handles redirect and localStorage
     } catch (err) {
       setError("Google sign-in failed");
     } finally {
