@@ -1,6 +1,6 @@
-# India-Based E-Commerce CRM Portal
+# CRM Heist
 
-A comprehensive Customer Relationship Management (CRM) system designed specifically for Indian e-commerce businesses. Built with React.js, Next.js, and MongoDB for real-time data operations.
+A comprehensive Customer Relationship Management (CRM) system designed for modern businesses. Built with React.js, Next.js, and MongoDB for real-time data operations.
 
 ## 🚀 Features
 

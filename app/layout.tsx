@@ -8,8 +8,8 @@ import LayoutWrapper from "@/components/LayoutWrapper";
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
-  title: "India E-Commerce CRM Portal",
-  description: "Comprehensive CRM solution for Indian e-commerce businesses",
+  title: "CRM Heist",
+  description: "Comprehensive CRM solution for modern businesses",
 }
 
 export default function RootLayout({

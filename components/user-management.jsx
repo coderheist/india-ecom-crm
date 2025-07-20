@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -23,63 +23,79 @@ export function UserManagement() {
   const [filterRole, setFilterRole] = useState("all")
   const [filterStatus, setFilterStatus] = useState("all")
 
-  const users = [
-    {
-      id: "USR-001",
-      name: "Rajesh Kumar",
-      email: "rajesh.kumar@company.com",
-      phone: "+91 98765 43210",
-      role: "admin",
-      status: "active",
-      lastLogin: "2024-01-18 10:30 AM",
-      createdDate: "2023-06-15",
-      permissions: ["all"],
-    },
-    {
-      id: "USR-002",
-      name: "Priya Sharma",
-      email: "priya.sharma@company.com",
-      phone: "+91 87654 32109",
-      role: "marketing_manager",
-      status: "active",
-      lastLogin: "2024-01-18 09:15 AM",
-      createdDate: "2023-08-22",
-      permissions: ["marketing", "analytics", "customers"],
-    },
-    {
-      id: "USR-003",
-      name: "Amit Singh",
-      email: "amit.singh@company.com",
-      phone: "+91 76543 21098",
-      role: "support_agent",
-      status: "active",
-      lastLogin: "2024-01-17 04:45 PM",
-      createdDate: "2023-09-10",
-      permissions: ["support", "customers", "orders"],
-    },
-    {
-      id: "USR-004",
-      name: "Sneha Patel",
-      email: "sneha.patel@company.com",
-      phone: "+91 65432 10987",
-      role: "viewer",
-      status: "active",
-      lastLogin: "2024-01-16 02:20 PM",
-      createdDate: "2023-11-05",
-      permissions: ["dashboard", "reports"],
-    },
-    {
-      id: "USR-005",
-      name: "Vikram Reddy",
-      email: "vikram.reddy@company.com",
-      phone: "+91 54321 09876",
-      role: "support_agent",
-      status: "inactive",
-      lastLogin: "2024-01-10 11:30 AM",
-      createdDate: "2023-07-18",
-      permissions: ["support", "customers"],
-    },
-  ]
+  // Users state
+  const [users, setUsers] = useState([])
+  const [loadingUsers, setLoadingUsers] = useState(true)
+  const [fetchError, setFetchError] = useState("")
+
+  // Add user dialog state
+  const [addUserDialogOpen, setAddUserDialogOpen] = useState(false)
+  const [newUser, setNewUser] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    role: "",
+  })
+  const [adding, setAdding] = useState(false)
+  const [addError, setAddError] = useState("")
+
+  // Fetch users from backend
+  const fetchUsers = async () => {
+    setLoadingUsers(true)
+    setFetchError("")
+    try {
+      const res = await fetch("/api/users")
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || "Failed to fetch users")
+      // Map backend users to UI fields
+      setUsers(data.users.map((u, i) => ({
+        id: u._id || `USR-${String(i + 1).padStart(3, "0")}`,
+        name: u.name,
+        email: u.email,
+        phone: u.phone,
+        role: u.role,
+        status: u.status,
+        lastLogin: u.lastLogin || "-",
+        createdDate: u.createdAt ? new Date(u.createdAt).toISOString().slice(0, 10) : "-",
+        permissions: u.permissions || ["dashboard"],
+      })))
+    } catch (err) {
+      setFetchError(err.message)
+      setUsers([])
+    } finally {
+      setLoadingUsers(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchUsers()
+  }, [])
+
+  const handleAddUser = async () => {
+    setAdding(true)
+    setAddError("")
+    if (!newUser.name || !newUser.email || !newUser.role) {
+      setAddError("Name, email, and role are required.")
+      setAdding(false)
+      return
+    }
+    try {
+      const res = await fetch("/api/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newUser),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || "Failed to add user")
+      setNewUser({ name: "", email: "", phone: "", role: "" })
+      setAddUserDialogOpen(false)
+      fetchUsers()
+    } catch (err) {
+      setAddError(err.message)
+    } finally {
+      setAdding(false)
+    }
+  }
 
   const filteredUsers = users.filter((user) => {
     const matchesSearch =
@@ -149,7 +165,7 @@ export function UserManagement() {
           <h2 className="text-3xl font-bold tracking-tight">User Management</h2>
           <p className="text-muted-foreground">Manage user accounts, roles, and permissions</p>
         </div>
-        <Dialog>
+        <Dialog open={addUserDialogOpen} onOpenChange={setAddUserDialogOpen}>
           <DialogTrigger asChild>
             <Button>
               <Plus className="mr-2 h-4 w-4" />
@@ -162,10 +178,11 @@ export function UserManagement() {
               <DialogDescription>Create a new user account with appropriate role and permissions.</DialogDescription>
             </DialogHeader>
             <div className="space-y-4">
-              <Input placeholder="Full Name" />
-              <Input placeholder="Email Address" type="email" />
-              <Input placeholder="Phone Number" />
-              <Select>
+              {addError && <div className="text-red-500 text-sm">{addError}</div>}
+              <Input placeholder="Full Name" value={newUser.name} onChange={e => setNewUser({ ...newUser, name: e.target.value })} />
+              <Input placeholder="Email Address" type="email" value={newUser.email} onChange={e => setNewUser({ ...newUser, email: e.target.value })} />
+              <Input placeholder="Phone Number" value={newUser.phone} onChange={e => setNewUser({ ...newUser, phone: e.target.value })} />
+              <Select value={newUser.role} onValueChange={v => setNewUser({ ...newUser, role: v })}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select Role" />
                 </SelectTrigger>
@@ -176,7 +193,9 @@ export function UserManagement() {
                   <SelectItem value="viewer">Viewer</SelectItem>
                 </SelectContent>
               </Select>
-              <Button className="w-full">Create User</Button>
+              <Button className="w-full" onClick={handleAddUser} disabled={adding}>
+                {adding ? "Adding..." : "Create User"}
+              </Button>
             </div>
           </DialogContent>
         </Dialog>
@@ -287,129 +306,149 @@ export function UserManagement() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filteredUsers.map((user) => (
-                <TableRow key={user.id}>
-                  <TableCell>
-                    <div className="flex items-center space-x-3">
-                      <Avatar>
-                        <AvatarFallback>
-                          {user.name
-                            .split(" ")
-                            .map((n) => n[0])
-                            .join("")}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <div className="font-medium">{user.name}</div>
-                        <div className="text-sm text-muted-foreground">{user.id}</div>
-                      </div>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <div className="space-y-1">
-                      <div className="flex items-center text-sm">
-                        <Mail className="mr-1 h-3 w-3" />
-                        {user.email}
-                      </div>
-                      <div className="flex items-center text-sm text-muted-foreground">
-                        <Phone className="mr-1 h-3 w-3" />
-                        {user.phone}
-                      </div>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <Badge className={getRoleColor(user.role)}>
-                      <div className="flex items-center gap-1">
-                        {getRoleIcon(user.role)}
-                        {user.role.replace("_", " ")}
-                      </div>
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <Badge className={getStatusColor(user.status)}>{user.status}</Badge>
-                  </TableCell>
-                  <TableCell>{user.lastLogin}</TableCell>
-                  <TableCell>{user.createdDate}</TableCell>
-                  <TableCell>
-                    <div className="flex gap-2">
-                      <Dialog>
-                        <DialogTrigger asChild>
-                          <Button variant="outline" size="sm">
-                            <Eye className="h-4 w-4" />
-                          </Button>
-                        </DialogTrigger>
-                        <DialogContent>
-                          <DialogHeader>
-                            <DialogTitle>User Details - {user.name}</DialogTitle>
-                            <DialogDescription>Complete user information and permissions</DialogDescription>
-                          </DialogHeader>
-                          <div className="space-y-4">
-                            <div className="grid grid-cols-2 gap-4">
-                              <div>
-                                <label className="text-sm font-medium">Full Name</label>
-                                <p className="text-sm text-muted-foreground">{user.name}</p>
-                              </div>
-                              <div>
-                                <label className="text-sm font-medium">User ID</label>
-                                <p className="text-sm text-muted-foreground">{user.id}</p>
-                              </div>
-                              <div>
-                                <label className="text-sm font-medium">Email</label>
-                                <p className="text-sm text-muted-foreground">{user.email}</p>
-                              </div>
-                              <div>
-                                <label className="text-sm font-medium">Phone</label>
-                                <p className="text-sm text-muted-foreground">{user.phone}</p>
-                              </div>
-                              <div>
-                                <label className="text-sm font-medium">Role</label>
-                                <Badge className={getRoleColor(user.role)}>{user.role.replace("_", " ")}</Badge>
-                              </div>
-                              <div>
-                                <label className="text-sm font-medium">Status</label>
-                                <Badge className={getStatusColor(user.status)}>{user.status}</Badge>
-                              </div>
-                              <div>
-                                <label className="text-sm font-medium">Last Login</label>
-                                <p className="text-sm text-muted-foreground">{user.lastLogin}</p>
-                              </div>
-                              <div>
-                                <label className="text-sm font-medium">Created Date</label>
-                                <p className="text-sm text-muted-foreground">{user.createdDate}</p>
-                              </div>
-                            </div>
-                            <div>
-                              <label className="text-sm font-medium">Permissions</label>
-                              <div className="flex flex-wrap gap-2 mt-2">
-                                {user.permissions.map((permission) => (
-                                  <Badge key={permission} variant="outline">
-                                    {permission}
-                                  </Badge>
-                                ))}
-                              </div>
-                            </div>
-                            <div className="flex gap-2">
-                              <Button size="sm">Edit User</Button>
-                              <Button variant="outline" size="sm">
-                                Reset Password
-                              </Button>
-                              {user.status === "active" ? (
-                                <Button variant="outline" size="sm">
-                                  Deactivate
-                                </Button>
-                              ) : (
-                                <Button variant="outline" size="sm">
-                                  Activate
-                                </Button>
-                              )}
-                            </div>
-                          </div>
-                        </DialogContent>
-                      </Dialog>
-                    </div>
+              {loadingUsers ? (
+                <TableRow>
+                  <TableCell colSpan={7} className="text-center py-8">
+                    <p>Loading users...</p>
                   </TableCell>
                 </TableRow>
-              ))}
+              ) : fetchError ? (
+                <TableRow>
+                  <TableCell colSpan={7} className="text-center py-8 text-red-500">
+                    {fetchError}
+                  </TableCell>
+                </TableRow>
+              ) : filteredUsers.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={7} className="text-center py-8">
+                    No users found.
+                  </TableCell>
+                </TableRow>
+              ) : (
+                filteredUsers.map((user) => (
+                  <TableRow key={user.id}>
+                    <TableCell>
+                      <div className="flex items-center space-x-3">
+                        <Avatar>
+                          <AvatarFallback>
+                            {user.name
+                              .split(" ")
+                              .map((n) => n[0])
+                              .join("")}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <div className="font-medium">{user.name}</div>
+                          <div className="text-sm text-muted-foreground">{user.id}</div>
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="space-y-1">
+                        <div className="flex items-center text-sm">
+                          <Mail className="mr-1 h-3 w-3" />
+                          {user.email}
+                        </div>
+                        <div className="flex items-center text-sm text-muted-foreground">
+                          <Phone className="mr-1 h-3 w-3" />
+                          {user.phone}
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <Badge className={getRoleColor(user.role)}>
+                        <div className="flex items-center gap-1">
+                          {getRoleIcon(user.role)}
+                          {user.role.replace("_", " ")}
+                        </div>
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <Badge className={getStatusColor(user.status)}>{user.status}</Badge>
+                    </TableCell>
+                    <TableCell>{user.lastLogin}</TableCell>
+                    <TableCell>{user.createdDate}</TableCell>
+                    <TableCell>
+                      <div className="flex gap-2">
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <Button variant="outline" size="sm">
+                              <Eye className="h-4 w-4" />
+                            </Button>
+                          </DialogTrigger>
+                          <DialogContent>
+                            <DialogHeader>
+                              <DialogTitle>User Details - {user.name}</DialogTitle>
+                              <DialogDescription>Complete user information and permissions</DialogDescription>
+                            </DialogHeader>
+                            <div className="space-y-4">
+                              <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                  <label className="text-sm font-medium">Full Name</label>
+                                  <p className="text-sm text-muted-foreground">{user.name}</p>
+                                </div>
+                                <div>
+                                  <label className="text-sm font-medium">User ID</label>
+                                  <p className="text-sm text-muted-foreground">{user.id}</p>
+                                </div>
+                                <div>
+                                  <label className="text-sm font-medium">Email</label>
+                                  <p className="text-sm text-muted-foreground">{user.email}</p>
+                                </div>
+                                <div>
+                                  <label className="text-sm font-medium">Phone</label>
+                                  <p className="text-sm text-muted-foreground">{user.phone}</p>
+                                </div>
+                                <div>
+                                  <label className="text-sm font-medium">Role</label>
+                                  <Badge className={getRoleColor(user.role)}>{user.role.replace("_", " ")}</Badge>
+                                </div>
+                                <div>
+                                  <label className="text-sm font-medium">Status</label>
+                                  <Badge className={getStatusColor(user.status)}>{user.status}</Badge>
+                                </div>
+                                <div>
+                                  <label className="text-sm font-medium">Last Login</label>
+                                  <p className="text-sm text-muted-foreground">{user.lastLogin}</p>
+                                </div>
+                                <div>
+                                  <label className="text-sm font-medium">Created Date</label>
+                                  <p className="text-sm text-muted-foreground">{user.createdDate}</p>
+                                </div>
+                              </div>
+                              <div>
+                                <label className="text-sm font-medium">Permissions</label>
+                                <div className="flex flex-wrap gap-2 mt-2">
+                                  {user.permissions.map((permission) => (
+                                    <Badge key={permission} variant="outline">
+                                      {permission}
+                                    </Badge>
+                                  ))}
+                                </div>
+                              </div>
+                              <div className="flex gap-2">
+                                <Button size="sm">Edit User</Button>
+                                <Button variant="outline" size="sm">
+                                  Reset Password
+                                </Button>
+                                {user.status === "active" ? (
+                                  <Button variant="outline" size="sm">
+                                    Deactivate
+                                  </Button>
+                                ) : (
+                                  <Button variant="outline" size="sm">
+                                    Activate
+                                  </Button>
+                                )}
+                              </div>
+                            </div>
+                          </DialogContent>
+                        </Dialog>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
             </TableBody>
           </Table>
         </CardContent>

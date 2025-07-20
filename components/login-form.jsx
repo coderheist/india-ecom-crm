@@ -16,7 +16,7 @@ export function LoginForm() {
               <Store className="h-8 w-8 text-white" />
             </div>
           </div>
-          <CardTitle className="text-2xl font-bold">India E-Commerce CRM</CardTitle>
+          <CardTitle className="text-2xl font-bold">CRM Heist</CardTitle>
           <CardDescription>Sign in to access your CRM dashboard</CardDescription>
         </CardHeader>
         <CardContent>

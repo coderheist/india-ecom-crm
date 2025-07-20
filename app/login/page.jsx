@@ -69,7 +69,7 @@ export default function LoginPage() {
           <Store className="h-12 w-12 text-white" />
         </div>
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-          India E-Commerce CRM
+          CRM Heist
         </h1>
         <p className="mt-2 text-gray-600 dark:text-gray-300">
           The central hub for your growing business.

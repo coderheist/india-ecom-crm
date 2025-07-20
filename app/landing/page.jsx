@@ -46,7 +46,7 @@ function Header() {
         <div className="mr-4 flex items-center">
           <Link href="/" className="flex items-center space-x-2">
             <Store className="h-6 w-6 text-orange-500" />
-            <span className="font-bold">India E-CRM</span>
+            <span className="font-bold">CRM Heist</span>
           </Link>
         </div>
         <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
@@ -72,7 +72,7 @@ function HeroSection() {
     <section className="container grid lg:grid-cols-2 gap-12 items-center py-24 sm:py-32">
       <div className="flex flex-col items-start gap-6">
         <h1 className="text-4xl font-extrabold tracking-tighter sm:text-5xl md:text-6xl">
-          The All-in-One CRM for Indian E-Commerce
+          The All-in-One CRM for Modern Businesses
         </h1>
         <p className="max-w-[600px] text-muted-foreground md:text-xl">
           Manage customers, orders, support, and marketing campaigns seamlessly. Focus on growing your business, we’ll handle the rest.
@@ -126,7 +126,7 @@ function Footer() {
         <footer className="border-t w-full">
             <div className="container mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 py-12">
                 <div className="col-span-2 md:col-span-1">
-                     <h3 className="font-bold">India E-CRM</h3>
+                     <h3 className="font-bold">CRM Heist</h3>
                      <p className="text-sm text-muted-foreground mt-2">Your business, streamlined.</p>
                 </div>
                 <div>
@@ -155,7 +155,7 @@ function Footer() {
             </div>
             <div className="border-t">
                  <p className="container mx-auto py-4 text-sm text-center text-muted-foreground">
-                    &copy; {new Date().getFullYear()} India E-Commerce CRM. All rights reserved.
+                    &copy; {new Date().getFullYear()} CRM Heist. All rights reserved.
                 </p>
             </div>
         </footer>
