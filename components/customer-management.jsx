@@ -340,7 +340,7 @@ export function CustomerManagement() {
               </TableHeader>
               <TableBody>
                 {filteredCustomers.map((customer) => (
-                  <TableRow key={customer._id}>
+                  <TableRow key={customer._id || customer.email}>
                     <TableCell>
                       <div className="flex items-center space-x-3">
                         <Avatar>
