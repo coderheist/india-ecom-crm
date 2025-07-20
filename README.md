@@ -1,99 +1,235 @@
-# crm-heist
+# India-Based E-Commerce CRM Portal
 
-A modern, full-stack CRM dashboard for Indian e-commerce businesses. Built with Next.js, Tailwind CSS, MongoDB, Firebase, and JWT authentication.
+A comprehensive Customer Relationship Management (CRM) system designed specifically for Indian e-commerce businesses. Built with React.js, Next.js, and MongoDB for real-time data operations.
 
-## Features
+## 🚀 Features
 
-- **Authentication**
-  - Email/password login with JWT
-  - Google Sign-In via Firebase
-  - Signup and password reset flows
-- **Dashboard**
-  - Flush, gapless layout with sidebar navigation
-  - Overview cards for key business metrics
-  - Real-time analytics and visualizations
-- **Customer Management**
-  - Add, edit, search, and filter customers
-  - View customer details, contact info, region, status, and order history
-- **Order Management**
-  - Track orders, fulfillment status, and returns
-- **Support Tickets**
-  - Manage customer support requests and resolutions
-- **Marketing Campaigns**
-  - Create and monitor email, SMS, and social media campaigns
-- **User Management**
-  - Admin-only user administration
-  - Role-based access control
-- **Analytics**
-  - KPI cards, charts, and marketing metrics dashboard
+### Core Modules
+- **Customer Management**: Unified profiles, search/filter, customer journey tracking
+- **Order & Inventory Management**: Real-time order tracking, status management, inventory updates
+- **Support & Ticketing**: Agent UI, ticket management, SLA tracking
+- **Marketing Automation**: Email/SMS campaigns, customer segmentation, automated triggers
+- **Analytics & Dashboard**: Real-time sales dashboards, campaign reporting, customer insights
+- **User Management**: Role-based access control, user account management
 
-## Tech Stack
+### User Roles
+- **Admin**: Full system access, user management, analytics, settings
+- **Marketing Manager**: Campaign management, segmentation, reporting
+- **Support Agent**: Ticket handling, customer support, chat management
+- **Viewer**: Read-only dashboard access
 
-- **Frontend:** Next.js (App Router), React, Tailwind CSS
-- **Backend:** Next.js API routes, MongoDB, JWT, bcrypt
-- **Authentication:** Firebase Authentication, JWT
-- **Database:** MongoDB
-- **UI Components:** Custom reusable components
-- **State Management:** React Context, useState, useEffect
-- **Styling:** Tailwind CSS, CSS variables
+## 🛠️ Technology Stack
 
-## Getting Started
+- **Frontend**: React.js (JavaScript), Next.js App Router
+- **Backend**: Node.js/Express (API routes and server actions)
+- **Database**: MongoDB (live data operations)
+- **UI Components**: shadcn/ui, Tailwind CSS
+- **Charts**: Recharts for analytics visualization
+- **Authentication**: JWT-based authentication system
 
-1. **Clone the repo:**
-   ```sh
-   git clone https://github.com/coderheist/india-ecom-crm.git
-   cd india-ecom-crm
-   ```
-2. **Install dependencies:**
-   ```sh
+## 📦 Installation
+
+1. **Clone the repository**
+   \`\`\`bash
+   git clone <repository-url>
+   cd india-ecommerce-crm
+   \`\`\`
+
+2. **Install dependencies**
+   \`\`\`bash
    npm install
-   # or
-   pnpm install
-   ```
-3. **Set up environment variables:**
-   - Copy `.env.example` to `.env.local` and fill in your MongoDB, Firebase, and JWT config.
-4. **Run the development server:**
-   ```sh
+   \`\`\`
+
+3. **Set up environment variables**
+   The `.env.local` file is already included with the following variables:
+   \`\`\`env
+   MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/ecommerce_crm?retryWrites=true&w=majority
+   JWT_SECRET=your-super-secret-jwt-key-here-make-it-long-and-random-123456789
+   NEXT_PUBLIC_APP_URL=http://localhost:3000
+   \`\`\`
+   
+   **Important**: Replace the MongoDB URI with your actual MongoDB connection string.
+
+4. **Run the development server**
+   \`\`\`bash
    npm run dev
-   # or
-   pnpm dev
-   ```
-5. **Open in browser:**
-   - Visit [http://localhost:3000](http://localhost:3000)
+   \`\`\`
 
-## Folder Structure
+5. **Open your browser**
+   Navigate to `http://localhost:3000`
 
-```
-india-ecom-crm/
-  app/
-    dashboard/
-    login/
-    signup/
-    forgot-password/
-    ...
-  components/
-    customer-management.jsx
-    dashboard.jsx
-    ...
-  lib/
-    auth.js
-    firebase.js
-    ...
-  public/
-  styles/
-  README.md
-  package.json
-  ...
-```
+## 🔐 Getting Started
 
-## Contributing
+1. **Create your first account** by clicking the "Sign Up" tab
+2. **Choose your role** (Admin, Marketing Manager, Support Agent, or Viewer)
+3. **Start adding customers** and exploring the CRM features
+4. **All data is saved to MongoDB** in real-time
 
-Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
+## 📱 Key Features
 
-## License
+### Dashboard Overview
+- Real-time KPI metrics
+- Recent activity feed
+- Performance indicators
+- System alerts (Admin only)
 
-MIT
+### Customer Management
+- Comprehensive customer profiles
+- Advanced search and filtering
+- Customer segmentation (VIP, Regular, New)
+- Regional distribution tracking
+- Customer journey timeline
 
----
+### Order Management
+- Order status tracking (New, Shipped, Delivered, Returned, Cancelled)
+- Real-time inventory updates
+- Order workflow management
+- Customer communication tools
 
-**Project by [coderheist](https://github.com/coderheist)**
+### Support System
+- Ticket creation and management
+- SLA status tracking
+- Priority-based routing
+- Agent assignment system
+- Customer interaction history
+
+### Marketing Campaigns
+- Email and SMS campaign creation
+- Audience segmentation
+- Performance analytics (open rates, click rates, conversions)
+- Automated campaign triggers
+- Revenue tracking
+
+### Analytics Dashboard
+- Sales trend analysis
+- Customer growth metrics
+- Regional performance data
+- Marketing channel effectiveness
+- Customer lifetime value analysis
+- Churn risk assessment
+
+### User Management (Admin Only)
+- Role-based access control
+- User account creation and management
+- Permission assignment
+- Activity monitoring
+
+## 🏗️ Project Structure
+
+\`\`\`
+├── app/
+│   ├── layout.jsx         # Root layout with providers
+│   ├── page.jsx          # Main application entry
+│   ├── globals.css       # Global styles
+│   └── api/              # API routes
+├── components/
+│   ├── ui/               # shadcn/ui components
+│   ├── auth-provider.jsx # Authentication context
+│   ├── dashboard.jsx     # Main dashboard component
+│   ├── app-sidebar.jsx   # Navigation sidebar
+│   ├── customer-management.jsx
+│   ├── order-management.jsx
+│   ├── support-tickets.jsx
+│   ├── marketing-campaigns.jsx
+│   ├── analytics.jsx
+│   └── user-management.jsx
+├── lib/
+│   ├── mongodb.js        # MongoDB connection
+│   ├── auth.js          # Authentication utilities
+│   └── utils.js         # Utility functions
+├── hooks/
+│   ├── use-toast.jsx    # Toast notifications
+│   └── use-mobile.jsx   # Mobile detection
+├── .env.local           # Environment variables
+└── README.md
+\`\`\`
+
+## 🔧 Configuration
+
+### Environment Variables
+The project includes a `.env.local` file with the following variables:
+
+- `MONGO_URI`: Your MongoDB connection string
+- `JWT_SECRET`: Secret key for JWT token generation
+- `NEXT_PUBLIC_APP_URL`: Your application URL
+
+### Role-Based Access Control
+The system implements comprehensive role-based access:
+
+- **Admin**: Access to all modules including user management
+- **Marketing Manager**: Marketing, analytics, and customer data
+- **Support Agent**: Support tickets, customer profiles, and orders
+- **Viewer**: Read-only access to dashboard and reports
+
+### Mobile Responsiveness
+- Fully responsive design for desktop, tablet, and mobile
+- Progressive Web App (PWA) ready
+- Touch-friendly interface for mobile users
+
+### Security Features
+- JWT-based authentication
+- Input validation and sanitization
+- Role-based route protection
+- Secure API endpoints
+- Password hashing with bcrypt
+
+## 📊 Analytics & Reporting
+
+### Key Metrics Tracked
+- Revenue trends and forecasting
+- Customer acquisition and retention
+- Order fulfillment rates
+- Support response times
+- Marketing campaign ROI
+- Regional sales performance
+
+### Real-time Updates
+- Live dashboard updates
+- Real-time order status changes
+- Instant notification system
+- Dynamic inventory tracking
+
+## 🚀 Deployment
+
+### Production Build
+\`\`\`bash
+npm run build
+npm start
+\`\`\`
+
+### Environment Setup
+Ensure all environment variables are configured for production:
+- Database connection strings
+- JWT secrets
+- API keys for external services
+- CORS settings
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📝 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🆘 Support
+
+For support and questions:
+- Create an issue in the repository
+- Contact the development team
+- Check the documentation wiki
+
+## 🔮 Future Enhancements
+
+- WhatsApp integration for customer communication
+- Advanced AI-powered customer insights
+- Inventory forecasting and automated reordering
+- Multi-language support for regional markets
+- Advanced reporting and custom dashboard creation
+- Integration with popular Indian payment gateways
+- Bulk import/export functionality
+- Advanced workflow automation

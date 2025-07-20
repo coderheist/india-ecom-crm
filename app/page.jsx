@@ -17,7 +17,7 @@ export default function LandingPage() {
             </span>
           </div>
           <h1 className="text-4xl md:text-5xl font-extrabold mb-4 text-gray-900 dark:text-white">
-            crm-heist
+            India E-Commerce CRM Portal
           </h1>
           <p className="text-lg md:text-xl text-gray-700 dark:text-gray-300 mb-8">
             The all-in-one platform to manage your customers, orders, support,
@@ -56,7 +56,7 @@ export default function LandingPage() {
           />
         </div>
         <footer className="mt-16 text-gray-400 text-sm text-center px-4">
-          &copy; {new Date().getFullYear()} crm-heist. All rights reserved.
+          &copy; {new Date().getFullYear()} India E-Commerce CRM. All rights reserved.
         </footer>
       </main>
     </>
