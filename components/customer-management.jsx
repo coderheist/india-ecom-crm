@@ -41,7 +41,7 @@ export function CustomerManagement() {
   const fetchCustomers = async () => {
     try {
       console.log("Fetching customers...")
-      const response = await fetch("/api/customers-sqlite")
+      const response = await fetch("/api/customers")
       const data = await response.json()
       console.log("API response:", data)
 
@@ -77,7 +77,7 @@ export function CustomerManagement() {
 
     setIsCreating(true)
     try {
-      const response = await fetch("/api/customers-sqlite", {
+      const response = await fetch("/api/customers", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
