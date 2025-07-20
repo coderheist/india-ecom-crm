@@ -46,9 +46,27 @@ A comprehensive Customer Relationship Management (CRM) system designed for moder
    MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/ecommerce_crm?retryWrites=true&w=majority
    JWT_SECRET=your-super-secret-jwt-key-here-make-it-long-and-random-123456789
    NEXT_PUBLIC_APP_URL=http://localhost:3000
+   
+   # Firebase Configuration (required for Google login)
+   NEXT_PUBLIC_FIREBASE_API_KEY=your-firebase-api-key-here
+   NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your-project-id.firebaseapp.com
+   NEXT_PUBLIC_FIREBASE_PROJECT_ID=your-firebase-project-id
+   NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your-project-id.appspot.com
+   NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your-messaging-sender-id
+   NEXT_PUBLIC_FIREBASE_APP_ID=your-firebase-app-id
    \`\`\`
    
-   **Important**: Replace the MongoDB URI with your actual MongoDB connection string.
+   **Important**: 
+   - Replace the MongoDB URI with your actual MongoDB connection string.
+   - Replace the Firebase configuration values with your actual Firebase project credentials.
+   
+   **To get Firebase credentials:**
+   1. Go to [Firebase Console](https://console.firebase.google.com/)
+   2. Select your project (or create a new one)
+   3. Go to Project Settings (gear icon) -> General tab
+   4. Scroll down to "Your apps" section
+   5. Click on "Firebase SDK snippet" -> "Config"
+   6. Copy the values from the config object to your `.env.local` file
 
 4. **Run the development server**
    \`\`\`bash
