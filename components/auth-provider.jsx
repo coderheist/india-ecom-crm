@@ -44,6 +44,11 @@ export function AuthProvider({ children }) {
   const loginWithGoogle = async () => {
     setIsLoading(true);
     try {
+      // Check if Firebase is properly configured
+      const requiredEnvVars = [
+        throw new Error("Firebase configuration is missing. Please check your environment variables.");
+      }
+      
       const auth = getAuth(app);
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
