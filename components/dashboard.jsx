@@ -1,8 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
-import { AppSidebar } from "@/components/app-sidebar"
 import { DashboardHeader } from "@/components/dashboard-header"
 import { DashboardOverview } from "@/components/dashboard-overview"
 import { CustomerManagement } from "@/components/customer-management"
@@ -13,21 +11,20 @@ import { Analytics } from "@/components/analytics"
 import { UserManagement } from "@/components/user-management"
 import { useAuth } from "@/components/auth-provider"
 
-export function Dashboard() {
-  const [activeView, setActiveView] = useState("overview")
+export function Dashboard({ onMenuClick, activeView }) {
   const { user } = useAuth()
 
   const renderContent = () => {
     switch (activeView) {
-      case "overview":
+      case "dashboard":
         return <DashboardOverview />
       case "customers":
         return <CustomerManagement />
       case "orders":
         return <OrderManagement />
-      case "support":
+      case "tickets":
         return <SupportTickets />
-      case "marketing":
+      case "campaigns":
         return <MarketingCampaigns />
       case "analytics":
         return <Analytics />
@@ -39,14 +36,13 @@ export function Dashboard() {
   }
 
   return (
-    <SidebarProvider defaultOpen={true}>
-      <div className="flex h-screen w-full">
-        <AppSidebar activeView={activeView} setActiveView={setActiveView} />
-        <SidebarInset className="flex-1">
-          <DashboardHeader />
-          <div className="flex-1 p-0 m-0 overflow-auto">{renderContent()}</div>
-        </SidebarInset>
+    <div className="flex-1 h-screen bg-background flex flex-col">
+      <DashboardHeader title={activeView} onMenuClick={onMenuClick} />
+      <div className="flex-1 overflow-y-auto">
+        <div className="container mx-auto px-4 py-6">
+          {renderContent()}
+        </div>
       </div>
-    </SidebarProvider>
+    </div>
   )
 }

@@ -1,13 +1,32 @@
 "use client";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Store, Users, ShoppingCart, BarChart3, MessageSquare, ArrowRight, CheckCircle, Star } from "lucide-react";
+import { Store, Users, ShoppingCart, BarChart3, MessageSquare, ArrowRight, Star } from "lucide-react";
+
+function FeatureCard({ icon, title, description }) {
+  return (
+    <div className="card-interactive p-6 text-center space-y-4 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm">
+      <div className="mx-auto w-fit p-3 rounded-xl bg-muted/50">{icon}</div>
+      <h3 className="font-semibold text-lg">{title}</h3>
+      <p className="text-muted-foreground">{description}</p>
+    </div>
+  );
+}
+
+function BenefitCard({ title, description }) {
+  return (
+    <div className="card-interactive p-6 text-center space-y-4 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm">
+      <h3 className="font-semibold text-lg">{title}</h3>
+      <p className="text-muted-foreground text-sm leading-relaxed">{description}</p>
+    </div>
+  );
+}
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+    <div className="min-h-screen flex flex-col overflow-auto">
       {/* Navigation */}
-      <nav className="border-b border-border/50 bg-background/80 backdrop-blur-sm">
+      <nav className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/80 backdrop-blur-sm">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
@@ -34,7 +53,7 @@ export default function LandingPage() {
       </nav>
 
       {/* Hero Section */}
-      <main className="container mx-auto px-6 py-16">
+      <main className="flex-1 container mx-auto px-6 py-16">
         <div className="text-center space-y-8 max-w-4xl mx-auto">
           <div className="space-y-4">
             <div className="inline-flex items-center space-x-2 bg-blue-50 dark:bg-blue-500/10 text-blue-700 dark:text-blue-300 px-4 py-2 rounded-full text-sm font-medium">
@@ -139,28 +158,6 @@ export default function LandingPage() {
           </div>
         </div>
       </footer>
-    </div>
-  );
-}
-
-function FeatureCard({ icon, title, description }) {
-  return (
-    <div className="card-interactive p-6 text-center space-y-4 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm">
-      <div className="mx-auto w-fit p-3 rounded-xl bg-muted/50">{icon}</div>
-      <h3 className="font-semibold text-lg">{title}</h3>
-      <p className="text-muted-foreground text-sm leading-relaxed">{description}</p>
-    </div>
-  );
-}
-
-function BenefitCard({ title, description }) {
-  return (
-    <div className="text-center space-y-3">
-      <div className="mx-auto w-fit p-3 rounded-full bg-green-50 dark:bg-green-500/10">
-        <CheckCircle className="h-6 w-6 text-green-600 dark:text-green-400" />
-      </div>
-      <h3 className="font-semibold text-lg">{title}</h3>
-      <p className="text-muted-foreground">{description}</p>
     </div>
   );
 }

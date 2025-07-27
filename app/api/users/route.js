@@ -5,7 +5,8 @@ import clientPromise from "@/lib/mongodb";
 export async function GET() {
   try {
     const client = await clientPromise;
-    const db = client.db("ecommerce_crm");
+    const mongoClient = await client;
+    const db = mongoClient.db("ecommerce_crm");
     const users = db.collection("users");
     const allUsers = await users.find({}).sort({ createdAt: -1 }).toArray();
     return NextResponse.json({ success: true, users: allUsers });
@@ -24,7 +25,8 @@ export async function POST(request) {
       return NextResponse.json({ error: "Name, email, and role are required." }, { status: 400 });
     }
     const client = await clientPromise;
-    const db = client.db("ecommerce_crm");
+    const mongoClient = await client;
+    const db = mongoClient.db("ecommerce_crm");
     const users = db.collection("users");
     // Check for duplicate email
     const existing = await users.findOne({ email });
